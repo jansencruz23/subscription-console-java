@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+
 import main.Customer;
 import plans.*;
 
@@ -60,39 +62,14 @@ public class CSVHelper {
 	
 	public Customer getCustomer(int id) {
 		Customer customer = null;
-
+		
 	    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 	        String line;
 	        while ((line = reader.readLine()) != null) {
 	            String[] parts = line.split(",");
-	            int customerId = Integer.parseInt(parts[0]);
 
-	            if (customerId == id) {
-	                // Found the matching customer ID, create a Customer object
-	                String customerName = parts[1];
-	                String address = parts[2];
-	                String email = parts[3];
-	                String subType = parts[4];
-	                boolean subConti = Boolean.parseBoolean(parts[5]);
-	                
-	                BasePlan subPlan = null;
-	                
-	                switch(subType) {
-	                case "StandardPlan":
-	                	subPlan = new StandardPlan();
-	                	break;
-	                case "StudentPlan":
-	                	subPlan = new StudentPlan();
-	                	break;
-	                case "GoldPlan":
-	                	subPlan = new GoldPlan();
-	                	break;
-	                }
-
-	                // Create the Customer object with the retrieved details
-	                //customer = new Customer(customerId, customerName, address, email, subPlan, subConti, this);
-	                
-	                // Break the loop as we found the customer with the specified ID
+	            if (parts[0].equals(id+"")) {
+	            	customer = createCustomer(parts);
 	                break;
 	            }
 	        }
@@ -113,27 +90,7 @@ public class CSVHelper {
 	            String customerEmail = parts[3];
 
 	            if (customerEmail.equals(email)) {
-	                int customerId = Integer.parseInt(parts[0]);
-	                String customerName = parts[1];
-	                String address = parts[2];
-	                String subType = parts[4];
-	                boolean subConti = Boolean.parseBoolean(parts[5]);
-	                
-	                BasePlan subPlan = null;
-	                
-	                switch(subType) {
-	                case "StandardPlan":
-	                	subPlan = new StandardPlan();
-	                	break;
-	                case "StudentPlan":
-	                	subPlan = new StudentPlan();
-	                	break;
-	                case "GoldPlan":
-	                	subPlan = new GoldPlan();
-	                	break;
-	                }
-
-	                //customer = new Customer(customerId, customerName, address, email, subPlan, Date, subConti, this);
+	            	customer = createCustomer(parts);
 	                break;
 	            }
 	        }
@@ -143,5 +100,31 @@ public class CSVHelper {
 	    }
 
 	    return customer; 
+	}
+	
+	private Customer createCustomer(String[] parts) {
+		int customerId = Integer.parseInt(parts[0]);
+        String customerName = parts[1];
+        String address = parts[2];
+        String email = parts[2];
+        String subType = parts[4];
+        boolean subConti = Boolean.parseBoolean(parts[5]);
+        LocalDate date = LocalDate.parse(parts[6]);
+        
+        BasePlan subPlan = null;
+        
+        switch(subType) {
+        case "StandardPlan":
+        	subPlan = new StandardPlan();
+        	break;
+        case "StudentPlan":
+        	subPlan = new StudentPlan();
+        	break;
+        case "GoldPlan":
+        	subPlan = new GoldPlan();
+        	break;
+        }
+
+        return new Customer(customerId, customerName, address, email, subPlan, subConti, date, this);
 	}
 }
