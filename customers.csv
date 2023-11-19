@@ -27,3 +27,4 @@ customerId,customerName,address,email,subType,subConti,subDue
 1,2,2,2,StandardPlan,true,2026-01-09
 1,2,2,2,StandardPlan,true,2026-01-16
 1,2,2,2,StandardPlan,false,2026-01-16
+4,2,2,1,StudentPlan,true,2023-12-19

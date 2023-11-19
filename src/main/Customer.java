@@ -90,6 +90,10 @@ public class Customer {
 	}
 	
 	public void registerCustomer(Customer customer) {
+		if (csvHelper.isCustomerExisting(customer)) {
+			System.out.println("Customer is already existing!");
+			new Main();
+		}
 		csvHelper.insertCustomer(customer);
 	}
 }

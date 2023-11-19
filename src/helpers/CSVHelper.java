@@ -115,7 +115,7 @@ public class CSVHelper {
 
 	    return customer; 
 	}
-	
+		
 	private Customer createCustomer(String[] parts) {
 		var customerId = Integer.parseInt(parts[0]);
         var customerName = parts[1];
@@ -173,5 +173,9 @@ public class CSVHelper {
 	    }
 
 	    return customerList.toArray(new Customer[0]);
+	}
+	
+	public boolean isCustomerExisting(Customer customer) {
+		return !(getCustomer(customer.getEmail()) == null) || !customer.isSubConti();
 	}
 }
