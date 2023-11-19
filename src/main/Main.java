@@ -1,8 +1,8 @@
 package main;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Scanner;
 import helpers.CSVHelper;
+import interfaces.ISubscription;
 import plans.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,7 +11,7 @@ public class Main {
 
 	private Scanner scan = new Scanner(System.in);
 	private CSVHelper csvHelper = new CSVHelper();
-	private Subscription subscription = new Subscription(csvHelper);
+	private ISubscription subscription = new Subscription(csvHelper);
 
 	private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
    	private static final Pattern pattern = Pattern.compile(EMAIL_REGEX);

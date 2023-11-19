@@ -1,6 +1,7 @@
 package main;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -140,12 +141,16 @@ public class Subscription implements ISubscription {
 	@Override
 	public void viewSubStat(int id) {
 		var customer = csvHelper.getCustomer(id);
+		int weeksCounter = (int) ChronoUnit.WEEKS.between(LocalDate.now(), customer.getSubDue());
 		
+		System.out.println(weeksCounter);
 		System.out.println("\nSubscription Status:\n---------------------");
 		System.out.println("Name: " + customer.getCustomerName());
 		System.out.println("Email: " + customer.getEmail());
 		System.out.println("Subscription Type: " + customer.getSubType().getClass().getSimpleName());
 		System.out.println("Subscription Due: " + customer.getSubDue());
+		System.out.println("Subscription Weeks Left: " + weeksCounter);
+		System.out.println("Subscription Paid: " + customer.getSubType().getTotalPrice(weeksCounter));
 	}
 
 	//Allows the user to stop their subscription limiting access to their account
