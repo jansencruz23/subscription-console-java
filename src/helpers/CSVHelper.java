@@ -2,6 +2,7 @@ package helpers;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,7 +10,7 @@ import main.Customer;
 import plans.*;
 
 public class CSVHelper {
-	private String filePath = "D:\\User\\Jansen\\Self Study\\2023 - 11 - NOVEMBER\\Java\\Subscription Management System\\customers.csv"; // Define your file path here
+	private String filePath = new File("customers.csv").getAbsolutePath();
 
 	public void insertCustomer(Customer customer) {
 		
@@ -28,7 +29,8 @@ public class CSVHelper {
                 + customer.getAddress() + ","
                 + customer.getEmail() + ","
                 + customer.getSubType().getClass().getSimpleName() + ","
-                + customer.isSubConti() + "\n";
+                + customer.isSubConti() + ","
+                + customer.getSubDue().toString() + "\n";
     }
 	
 	private int getLastCustomerId() {
@@ -88,13 +90,55 @@ public class CSVHelper {
 	                }
 
 	                // Create the Customer object with the retrieved details
-	                customer = new Customer(customerId, customerName, address, email, subPlan, subConti, this);
+	                //customer = new Customer(customerId, customerName, address, email, subPlan, subConti, this);
 	                
 	                // Break the loop as we found the customer with the specified ID
 	                break;
 	            }
 	        }
 	    } catch (IOException | NumberFormatException e) {
+	        e.printStackTrace();
+	    }
+
+	    return customer; 
+	}
+	
+	public Customer getCustomer(String email) {
+		Customer customer = null;
+
+	    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+	        String line;
+	        while ((line = reader.readLine()) != null) {
+	            String[] parts = line.split(",");
+	            String customerEmail = parts[3];
+
+	            if (customerEmail.equals(email)) {
+	                int customerId = Integer.parseInt(parts[0]);
+	                String customerName = parts[1];
+	                String address = parts[2];
+	                String subType = parts[4];
+	                boolean subConti = Boolean.parseBoolean(parts[5]);
+	                
+	                BasePlan subPlan = null;
+	                
+	                switch(subType) {
+	                case "StandardPlan":
+	                	subPlan = new StandardPlan();
+	                	break;
+	                case "StudentPlan":
+	                	subPlan = new StudentPlan();
+	                	break;
+	                case "GoldPlan":
+	                	subPlan = new GoldPlan();
+	                	break;
+	                }
+
+	                //customer = new Customer(customerId, customerName, address, email, subPlan, Date, subConti, this);
+	                break;
+	            }
+	        }
+	    } 
+	    catch (IOException | NumberFormatException e) {
 	        e.printStackTrace();
 	    }
 

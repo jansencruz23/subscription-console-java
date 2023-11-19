@@ -53,8 +53,9 @@ public class Subscription implements ISubscription {
 	}
 
 	@Override
-	public void viewSubHis() {
-		// TODO Auto-generated method stub
+	public void viewSubHis(int id) {
+		//var customerHistory = csvHelper.getCustomer(id);
+		
 		
 	}
 
@@ -63,6 +64,9 @@ public class Subscription implements ISubscription {
 		var customer = csvHelper.getCustomer(id);
 		
 		System.out.println("Name: " + customer.getCustomerName());
+		System.out.println("Email: " + customer.getEmail());
+		System.out.println("Subscription Type: " + customer.getSubType().getClass().getSimpleName());
+		System.out.println("Subscription Due: " + customer.getSubDue());
 	}
 
 	@Override

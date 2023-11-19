@@ -1,7 +1,7 @@
 package main;
 
+import java.time.LocalDate;
 import java.util.Date;
-
 import helpers.CSVHelper;
 import plans.BasePlan;
 
@@ -13,7 +13,7 @@ public class Customer {
 	private String email;
 	private BasePlan subType;
 	private boolean subConti;
-	private Date subDue;
+	private LocalDate subDue;
 	
 	private CSVHelper csvHelper;
 	
@@ -22,13 +22,14 @@ public class Customer {
 	}
 	
 	public Customer(int customerId, String customerName, String address,
-		String email, BasePlan subType, boolean subConti, CSVHelper csvHelper) {
+		String email, BasePlan subType, boolean subConti, LocalDate subDue, CSVHelper csvHelper) {
 		this.customerId = customerId;
 		this.customerName = customerName;
 		this.address = address;
 		this.email = email;
 		this.subType = subType;
 		this.subConti = subConti;
+		this.subDue = subDue;
 		this.csvHelper = csvHelper;
 	}
 	
@@ -70,6 +71,14 @@ public class Customer {
 	
 	public void setSubConti(boolean subConti) {
 		this.subConti = subConti;
+	}
+	
+	public LocalDate getSubDue() {
+		return subDue;
+	}
+
+	public void setSubDue(LocalDate subDue) {
+		this.subDue = subDue;
 	}
 
 	public int getCustomerId() {

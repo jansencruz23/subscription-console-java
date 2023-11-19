@@ -4,7 +4,7 @@ public interface ISubscription {
 
 	void addDuration();
 	void updateType();
-	void viewSubHis();
+	void viewSubHis(int id);
 	void viewSubStat(int id);
 	void cancelSub();
 }

@@ -1,6 +1,7 @@
 package main;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Scanner;
-
 import helpers.CSVHelper;
 import plans.*;
 
@@ -37,7 +38,16 @@ public class Main {
 	}
 	
 	private void login() {
+		System.out.print("Enter your email: ");
+		var email = scan.nextLine();
+		var customer = csvHelper.getCustomer(email);
 		
+		if (customer == null) {
+			System.out.println("Email not found!");
+			login();
+		}
+		
+		promptUserLoggedIn(customer);
 	}
 	
 	private void register() {
@@ -74,16 +84,41 @@ public class Main {
 			register();
 			break;
 		}
+		
+		System.out.println("Subscription Time: ");
+		System.out.println("1 - 1 week");
+		System.out.println("2 - 1 month");
+		System.out.println("3 - 1 year");
+		var date = scan.nextLine();
+		LocalDate currentDate = LocalDate.now();
+		LocalDate subDue = null;
+		
+		switch(date) {
+		case "1":
+			subDue = currentDate.plusWeeks(1);
+			break;
+		case "2":
+			subDue = currentDate.plusMonths(1);
+			break;
+		case "3":
+			subDue = currentDate.plusYears(1);
+			break;
+		default:
+			System.out.println("Invalid input");
+			register();
+			break;
+		}
+		
 		customer.setSubType(subType);
 		customer.setSubConti(true);
-		
+		customer.setSubDue(subDue);
 		customer.registerCustomer(customer);
 		
 		promptUserLoggedIn(customer);
 	}
 	
 	private void promptUserLoggedIn(Customer customer) {
-		System.out.println("Hello " + customer + "!");
+		System.out.println("Hello " + customer.getCustomerName() + "!");
 		System.out.println("What would you like to do?");
 		System.out.println("1 - View Subscription Status");
 		System.out.println("2 - View Subscription History");
@@ -96,6 +131,8 @@ public class Main {
 		case "1":
 			subscription.viewSubStat(customer.getCustomerId());
 			break;
+		case "2":
+			subscription.viewSubHis(customer.getCustomerId());
 		}
 	}
 }
