@@ -66,8 +66,8 @@ public class Customer {
 	public void registerCustomer(Customer customer) {
 		String filePath = "D:\\User\\Jansen\\Self Study\\2023 - 11 - NOVEMBER\\Java\\Subscription Management System\\customers.csv"; // Define your file path here
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(formatCustomerToCSV(customer));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            writer.append(formatCustomerToCSV(customer));
             System.out.println("user registered successfully");
         } 
         catch (IOException e) {
@@ -76,7 +76,7 @@ public class Customer {
 	}
 	
 	private String formatCustomerToCSV(Customer customer) {
-        return customer.getCustomerId() + ","
+        return customer.getLastCustomerId() + ","
                 + customer.getCustomerName() + ","
                 + customer.getAddress() + ","
                 + customer.getEmail() + ","
@@ -84,23 +84,29 @@ public class Customer {
                 + customer.isSubConti() + "\n";
     }
 	
-	private int getLastCustomerId(String filePath) {
+	private int getLastCustomerId() {
         int lastId = 0;
+        String filePath = "D:\\User\\Jansen\\Self Study\\2023 - 11 - NOVEMBER\\Java\\Subscription Management System\\customers.csv"; // Define your file path here
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                int customerId = Integer.parseInt(parts[0]);
-
-                if (customerId > lastId) {
-                    lastId = customerId;
+                
+                if (parts[0].equals("customerId")) {
+                	continue;
+                }
+                
+                int id = Integer.parseInt(parts[0]);
+                
+                if (id > lastId) {
+                    lastId = id;
                 }
             }
         } catch (IOException | NumberFormatException e) {
             e.printStackTrace();
         }
 
-        return lastId;
+        return lastId + 1;
     }
 }

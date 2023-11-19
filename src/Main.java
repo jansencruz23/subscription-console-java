@@ -1,4 +1,3 @@
-import java.io.FileWriter;
 import java.util.Scanner;
 import plans.*;
 
@@ -72,7 +71,6 @@ public class Main {
 			break;
 		}
 		customer.setSubType(subType);
-		customer.setCustomerId(customer.getLastCustomerId());
 		customer.setSubConti(true);
 		
 		customer.registerCustomer(customer);
