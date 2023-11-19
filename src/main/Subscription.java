@@ -52,6 +52,7 @@ public class Subscription implements ISubscription {
 		System.out.println("1 - 1 week");
 		System.out.println("2 - 1 month");
 		System.out.println("3 - 1 year");
+		System.out.print("Enter input: ");
 		var input = scan.nextLine();
 		
 		var previousDue = customer.getSubDue();
@@ -86,6 +87,7 @@ public class Subscription implements ISubscription {
 		System.out.println("1 - Standard Plan");
 		System.out.println("2 - Student Plan");
 		System.out.println("3 - Gold Plan");
+		System.out.print("Enter input: ");
 		
 		var plan = scan.nextLine();
 		BasePlan subType = null;
@@ -137,6 +139,9 @@ public class Subscription implements ISubscription {
 	@Override
 	public void cancelSub(int id) {
 		var customer = csvHelper.getCustomer(id);
+		
 		customer.setSubConti(false);
+		csvHelper.updateCustomer(customer);
+		new Main();
 	}
 }

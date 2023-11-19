@@ -47,6 +47,20 @@ public class Main {
 			login();
 		}
 		
+		if (!customer.isSubConti()) {
+			System.out.println("Your subscription is cancelled");
+			new Main();
+			return;
+		}
+		
+		var subDue = customer.getSubDue();
+		if (LocalDate.now().isAfter(subDue)) {
+			System.out.println("Your subscription has ended");
+			subscription.addDuration(customer.getCustomerId());
+			promptUserLoggedIn(customer);
+			return;
+		}
+		
 		promptUserLoggedIn(customer);
 	}
 	
@@ -125,6 +139,8 @@ public class Main {
 		System.out.println("2 - View Subscription History");
 		System.out.println("3 - Update Subscription Type");
 		System.out.println("4 - Add Subscription Duration");
+		System.out.println("5 - Cancel Subscription");
+		System.out.println("6 - Log out");
 		System.out.print("Enter input: ");
 		var input = scan.nextLine();
 		
@@ -142,6 +158,12 @@ public class Main {
 			break;
 		case "4":
 			subscription.addDuration(id);
+			break;
+		case "5":
+			subscription.cancelSub(id);
+			break;
+		case "6":
+			new Main();
 			break;
 		default:
 			System.out.println("Invalid input");

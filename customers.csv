@@ -18,3 +18,12 @@ customerId,customerName,address,email,subType,subConti,subDue
 1,2,2,2,StandardPlan,true,2023-12-19
 1,2,2,2,StandardPlan,true,2023-12-19
 1,2,2,2,StandardPlan,true,2024-12-19
+3,name,123,321,StandardPlan,true,2023-11-26
+3,name,123,123,GoldPlan,true,2023-11-26
+3,name,123,123,GoldPlan,true,2024-11-26
+1,2,2,2,StandardPlan,true,2024-12-26
+1,2,2,2,StandardPlan,true,2025-01-02
+1,2,2,2,StandardPlan,true,2025-01-09
+1,2,2,2,StandardPlan,true,2026-01-09
+1,2,2,2,StandardPlan,true,2026-01-16
+1,2,2,2,StandardPlan,false,2026-01-16
