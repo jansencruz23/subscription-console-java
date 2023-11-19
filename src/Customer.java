@@ -80,7 +80,7 @@ public class Customer {
                 + customer.getCustomerName() + ","
                 + customer.getAddress() + ","
                 + customer.getEmail() + ","
-                + customer.getSubType().toString() + ","
+                + customer.getSubType().getClass().getSimpleName() + ","
                 + customer.isSubConti() + "\n";
     }
 	

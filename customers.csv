@@ -2,3 +2,4 @@ customerId,customerName,address,email,subType,subConti
 1,1,1,1,plans.StandardPlan@b4c966a,true
 2,2,2,2,plans.StudentPlan@10f87f48,true
 3,3,3,3,plans.GoldPlan@10f87f48,true
+4,h,h,h,GoldPlan,true

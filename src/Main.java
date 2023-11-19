@@ -74,5 +74,7 @@ public class Main {
 		customer.setSubConti(true);
 		
 		customer.registerCustomer(customer);
+		
+		
 	}
 }
