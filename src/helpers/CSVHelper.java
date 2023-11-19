@@ -1,71 +1,17 @@
+package helpers;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import main.Customer;
 
-import plans.BasePlan;
+public class CSVHelper {
+	private String filePath = "D:\\User\\Jansen\\Self Study\\2023 - 11 - NOVEMBER\\Java\\Subscription Management System\\customers.csv"; // Define your file path here
 
-public class Customer {
-	
-	private int customerId;
-	private String customerName;
-	private String address;
-	private String email;
-	private BasePlan subType;
-	private boolean subConti;
-	
-	public String getCustomerName() {
-		return customerName;
-	}
-	
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
-	
-	public String getAddress() {
-		return address;
-	}
-	
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public BasePlan getSubType() {
-		return subType;
-	}
-	
-	public void setSubType(BasePlan subType) {
-		this.subType = subType;
-	}
-	
-	public boolean isSubConti() {
-		return subConti;
-	}
-	
-	public void setSubConti(boolean subConti) {
-		this.subConti = subConti;
-	}
-
-	public int getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
-	}
-	
-	public void registerCustomer(Customer customer) {
-		String filePath = "D:\\User\\Jansen\\Self Study\\2023 - 11 - NOVEMBER\\Java\\Subscription Management System\\customers.csv"; // Define your file path here
-
+	public void insertCustomer(Customer customer) {
+		
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             writer.append(formatCustomerToCSV(customer));
             System.out.println("user registered successfully");
@@ -76,7 +22,7 @@ public class Customer {
 	}
 	
 	private String formatCustomerToCSV(Customer customer) {
-        return customer.getLastCustomerId() + ","
+        return getLastCustomerId() + ","
                 + customer.getCustomerName() + ","
                 + customer.getAddress() + ","
                 + customer.getEmail() + ","
@@ -86,8 +32,7 @@ public class Customer {
 	
 	private int getLastCustomerId() {
         int lastId = 0;
-        String filePath = "D:\\User\\Jansen\\Self Study\\2023 - 11 - NOVEMBER\\Java\\Subscription Management System\\customers.csv"; // Define your file path here
-
+        
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {

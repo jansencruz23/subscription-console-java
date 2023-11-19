@@ -1,3 +1,4 @@
+package main;
 import java.util.Date;
 
 import interfaces.ISubscription;
@@ -51,9 +52,8 @@ public class Subscription implements ISubscription {
 	}
 
 	@Override
-	public void viewSubStat() {
-		// TODO Auto-generated method stub
-		
+	public void viewSubStat(int id) {
+		System.out.println("");
 	}
 
 	@Override

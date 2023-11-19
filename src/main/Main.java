@@ -1,10 +1,14 @@
+package main;
 import java.util.Scanner;
+
+import helpers.CSVHelper;
 import plans.*;
 
 public class Main {
 
 	private Scanner scan = new Scanner(System.in);
 	private Subscription subscription = new Subscription();
+	private CSVHelper csvHelper = new CSVHelper();
 	
 	public static void main(String[] args) {
 		new Main();
@@ -37,7 +41,7 @@ public class Main {
 	}
 	
 	private void register() {
-		var customer = new Customer();
+		var customer = new Customer(csvHelper);
 		
 		System.out.print("Name: ");
 		customer.setCustomerName(scan.nextLine());
@@ -75,6 +79,15 @@ public class Main {
 		
 		customer.registerCustomer(customer);
 		
-		
+		promptUserLoggedIn(customer);
+	}
+	
+	private void promptUserLoggedIn(Customer customer) {
+		System.out.println("Hello " + customer + "!");
+		System.out.println("What would you like to do?");
+		System.out.println("1 - View Subscription Status");
+		System.out.println("2 - View Subscription History");
+		System.out.println("3 - Update Subscription Type");
+		System.out.println("4 - Add Subscription Duration");
 	}
 }
