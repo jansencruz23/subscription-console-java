@@ -1,6 +1,6 @@
 customerId,customerName,address,email,subType,subConti
-1,1,1,1,plans.StandardPlan@b4c966a,true
-2,2,2,2,plans.StudentPlan@10f87f48,true
-3,3,3,3,plans.GoldPlan@10f87f48,true
-4,h,h,h,GoldPlan,true
-5,1,1,1,StudentPlan,true
+1,1,1,1,StandardPlan,TRUE
+2,2,2,2,StudentPlan,TRUE
+3,3,3,3,GoldPlan,TRUE
+4,h,h,h,GoldPlan,TRUE
+5,1,1,1,StudentPlan,TRUE

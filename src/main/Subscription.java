@@ -1,6 +1,7 @@
 package main;
-import java.util.Date;
 
+import java.util.Date;
+import helpers.CSVHelper;
 import interfaces.ISubscription;
 
 public class Subscription implements ISubscription {
@@ -8,6 +9,12 @@ public class Subscription implements ISubscription {
 	private double subPrice;
 	private Date date;
 	private int subCounter;
+	
+	private CSVHelper csvHelper;
+	
+	public Subscription(CSVHelper csvHelper) {
+		this.csvHelper = csvHelper;
+	}
 	
 	public double getSubPrice() {
 		return subPrice;
@@ -53,7 +60,9 @@ public class Subscription implements ISubscription {
 
 	@Override
 	public void viewSubStat(int id) {
-		System.out.println("");
+		var customer = csvHelper.getCustomer(id);
+		
+		System.out.println("Name: " + customer.getCustomerName());
 	}
 
 	@Override

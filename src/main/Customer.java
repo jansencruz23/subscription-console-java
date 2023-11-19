@@ -1,5 +1,7 @@
 package main;
 
+import java.util.Date;
+
 import helpers.CSVHelper;
 import plans.BasePlan;
 
@@ -11,10 +13,22 @@ public class Customer {
 	private String email;
 	private BasePlan subType;
 	private boolean subConti;
+	private Date subDue;
 	
 	private CSVHelper csvHelper;
 	
 	public Customer(CSVHelper csvHelper) {
+		this.csvHelper = csvHelper;
+	}
+	
+	public Customer(int customerId, String customerName, String address,
+		String email, BasePlan subType, boolean subConti, CSVHelper csvHelper) {
+		this.customerId = customerId;
+		this.customerName = customerName;
+		this.address = address;
+		this.email = email;
+		this.subType = subType;
+		this.subConti = subConti;
 		this.csvHelper = csvHelper;
 	}
 	

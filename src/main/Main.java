@@ -7,8 +7,8 @@ import plans.*;
 public class Main {
 
 	private Scanner scan = new Scanner(System.in);
-	private Subscription subscription = new Subscription();
 	private CSVHelper csvHelper = new CSVHelper();
+	private Subscription subscription = new Subscription(csvHelper);
 	
 	public static void main(String[] args) {
 		new Main();
@@ -89,5 +89,13 @@ public class Main {
 		System.out.println("2 - View Subscription History");
 		System.out.println("3 - Update Subscription Type");
 		System.out.println("4 - Add Subscription Duration");
+		System.out.print("Enter input: ");
+		var input = scan.nextLine();
+		
+		switch (input) {
+		case "1":
+			subscription.viewSubStat(customer.getCustomerId());
+			break;
+		}
 	}
 }
