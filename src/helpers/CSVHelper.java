@@ -28,6 +28,7 @@ public class CSVHelper {
 	
 	private String formatCustomerToCSV(Customer customer, boolean toUpdate) {
 		var customerId = toUpdate ? customer.getCustomerId() : getLastCustomerId();
+		System.out.println(customer.getSubDue().toString());
         return customerId + ","
                 + customer.getCustomerName() + ","
                 + customer.getAddress() + ","
@@ -116,13 +117,13 @@ public class CSVHelper {
 	}
 	
 	private Customer createCustomer(String[] parts) {
-		int customerId = Integer.parseInt(parts[0]);
-        String customerName = parts[1];
-        String address = parts[2];
-        String email = parts[2];
-        String subType = parts[4];
-        boolean subConti = Boolean.parseBoolean(parts[5]);
-        LocalDate date = LocalDate.parse(parts[6]);
+		var customerId = Integer.parseInt(parts[0]);
+        var customerName = parts[1];
+        var address = parts[2];
+        var email = parts[2];
+        var subType = parts[4];
+        var subConti = Boolean.parseBoolean(parts[5]);
+        var date = LocalDate.parse(parts[6]);
         
         BasePlan subPlan = null;
         
@@ -144,7 +145,7 @@ public class CSVHelper {
 	public void updateCustomer(Customer customer) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             writer.append(formatCustomerToCSV(customer, true));
-            System.out.println("Customer's Subscription Type updated successfully");
+            System.out.println("Customer is updated successfully");
         } 
         catch (IOException e) {
             e.printStackTrace();

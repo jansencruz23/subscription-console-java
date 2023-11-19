@@ -59,13 +59,13 @@ public class Subscription implements ISubscription {
 		
 		switch (input) {
 		case "1": 
-			currentDue.plusWeeks(1);
+			currentDue = previousDue.plusWeeks(1);
 			break;
 		case "2":
-			currentDue.plusMonths(1);
+			currentDue = previousDue.plusMonths(1);
 			break;
 		case "3":
-			currentDue.plusYears(1);
+			currentDue = previousDue.plusYears(1);
 			break;
 		default:
 			System.out.println("Invalid input");
@@ -73,6 +73,7 @@ public class Subscription implements ISubscription {
 			break;
 		}		
 		
+		customer.setCustomerId(id);
 		customer.setSubDue(currentDue);
 		csvHelper.updateCustomer(customer);
 	}
