@@ -111,6 +111,7 @@ public class Main {
 		
 		customer.setSubType(subType);
 		customer.setSubConti(true);
+		customer.setCustomerId(csvHelper.getLastCustomerId());
 		customer.setSubDue(subDue);
 		customer.registerCustomer(customer);
 		
@@ -127,12 +128,27 @@ public class Main {
 		System.out.print("Enter input: ");
 		var input = scan.nextLine();
 		
+		var id = customer.getCustomerId();
+		
 		switch (input) {
 		case "1":
-			subscription.viewSubStat(customer.getCustomerId());
+			subscription.viewSubStat(id);
 			break;
 		case "2":
-			subscription.viewSubHis(customer.getCustomerId());
+			subscription.viewSubHis(id);
+			break;
+		case "3":
+			subscription.updateType(id);
+			break;
+		case "4":
+			subscription.addDuration(id);
+			break;
+		default:
+			System.out.println("Invalid input");
+			promptUserLoggedIn(customer);
+			break;
 		}
+		
+		promptUserLoggedIn(customer);
 	}
 }

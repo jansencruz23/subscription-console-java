@@ -1,11 +1,15 @@
 package main;
 
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.Scanner;
 import helpers.CSVHelper;
 import interfaces.ISubscription;
+import plans.*;
 
 public class Subscription implements ISubscription {
 	
+	private Scanner scan = new Scanner(System.in);
 	private double subPrice;
 	private Date date;
 	private int subCounter;
@@ -41,22 +45,82 @@ public class Subscription implements ISubscription {
 	}
 
 	@Override
-	public void addDuration() {
-		// TODO Auto-generated method stub
+	public void addDuration(int id) {
+		var customer = csvHelper.getCustomer(id);
 		
+		System.out.println("Add duration to your Subscription:");
+		System.out.println("1 - 1 week");
+		System.out.println("2 - 1 month");
+		System.out.println("3 - 1 year");
+		var input = scan.nextLine();
+		
+		var previousDue = customer.getSubDue();
+		LocalDate currentDue = previousDue;
+		
+		switch (input) {
+		case "1": 
+			currentDue.plusWeeks(1);
+			break;
+		case "2":
+			currentDue.plusMonths(1);
+			break;
+		case "3":
+			currentDue.plusYears(1);
+			break;
+		default:
+			System.out.println("Invalid input");
+			addDuration(id);
+			break;
+		}		
+		
+		customer.setSubDue(currentDue);
+		csvHelper.updateCustomer(customer);
 	}
 
 	@Override
-	public void updateType() {
-		// TODO Auto-generated method stub
+	public void updateType(int id) {
+		var customer = csvHelper.getCustomer(id);
 		
+		System.out.println("Update your Subscription Type:");
+		System.out.println("1 - Standard Plan");
+		System.out.println("2 - Student Plan");
+		System.out.println("3 - Gold Plan");
+		
+		var plan = scan.nextLine();
+		BasePlan subType = null;
+		
+		switch(plan) {
+		case "1":
+			subType = new StandardPlan();
+			break;
+		case "2":
+			subType = new StudentPlan();
+			break;
+		case "3":
+			subType = new GoldPlan();
+			break;
+		default:
+			System.out.println("Invalid input");
+			updateType(id);
+			break;
+		}
+		
+		customer.setCustomerId(id);
+		customer.setSubType(subType);
+		csvHelper.updateCustomer(customer);
 	}
 
 	@Override
 	public void viewSubHis(int id) {
-		//var customerHistory = csvHelper.getCustomer(id);
+		var customer = csvHelper.getCustomer(id);
+		var customers = csvHelper.getHistory(id);
+		System.out.println("Name: " + customer.getCustomerName());
+		System.out.println("Email: " + customer.getEmail());
 		
-		
+		for (var history : customers) {
+			System.out.println("Subscription Type: " + history.getSubType().getClass().getSimpleName() + " -- "
+					+ "Subscription Due: " + history.getSubDue());
+		}
 	}
 
 	@Override
@@ -70,8 +134,8 @@ public class Subscription implements ISubscription {
 	}
 
 	@Override
-	public void cancelSub() {
-		// TODO Auto-generated method stub
-		
+	public void cancelSub(int id) {
+		var customer = csvHelper.getCustomer(id);
+		customer.setSubConti(false);
 	}
 }

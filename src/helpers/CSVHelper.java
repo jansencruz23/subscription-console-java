@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import main.Customer;
 import plans.*;
@@ -15,18 +17,18 @@ public class CSVHelper {
 	private String filePath = new File("customers.csv").getAbsolutePath();
 
 	public void insertCustomer(Customer customer) {
-		
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            writer.append(formatCustomerToCSV(customer));
-            System.out.println("user registered successfully");
+            writer.append(formatCustomerToCSV(customer, false));
+            System.out.println("Customer is registered successfully");
         } 
         catch (IOException e) {
             e.printStackTrace();
         }
 	}
 	
-	private String formatCustomerToCSV(Customer customer) {
-        return getLastCustomerId() + ","
+	private String formatCustomerToCSV(Customer customer, boolean toUpdate) {
+		var customerId = toUpdate ? customer.getCustomerId() : getLastCustomerId();
+        return customerId + ","
                 + customer.getCustomerName() + ","
                 + customer.getAddress() + ","
                 + customer.getEmail() + ","
@@ -35,13 +37,17 @@ public class CSVHelper {
                 + customer.getSubDue().toString() + "\n";
     }
 	
-	private int getLastCustomerId() {
+	public int getLastCustomerId() {
         int lastId = 0;
         
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
+                
+                if (parts.length < 1) {
+                    continue; 
+                }
                 
                 if (parts[0].equals("customerId")) {
                 	continue;
@@ -68,9 +74,12 @@ public class CSVHelper {
 	        while ((line = reader.readLine()) != null) {
 	            String[] parts = line.split(",");
 
+	            if (parts.length < 1) {
+                    continue;
+                }
+	            
 	            if (parts[0].equals(id+"")) {
 	            	customer = createCustomer(parts);
-	                break;
 	            }
 	        }
 	    } catch (IOException | NumberFormatException e) {
@@ -87,11 +96,15 @@ public class CSVHelper {
 	        String line;
 	        while ((line = reader.readLine()) != null) {
 	            String[] parts = line.split(",");
+	            
+	            if (parts.length < 1) {
+                    continue; 
+	            }
+	            
 	            String customerEmail = parts[3];
-
+                
 	            if (customerEmail.equals(email)) {
 	            	customer = createCustomer(parts);
-	                break;
 	            }
 	        }
 	    } 
@@ -126,5 +139,38 @@ public class CSVHelper {
         }
 
         return new Customer(customerId, customerName, address, email, subPlan, subConti, date, this);
+	}
+		
+	public void updateCustomer(Customer customer) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            writer.append(formatCustomerToCSV(customer, true));
+            System.out.println("Customer's Subscription Type updated successfully");
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	public Customer[] getHistory(int id) {
+		List<Customer> customerList = new ArrayList<>();
+
+	    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+	        String line;
+	        while ((line = reader.readLine()) != null) {
+	            String[] parts = line.split(",");
+
+	            if (parts.length < 1) {
+	                continue;
+	            }
+
+	            if (parts[0].equals(String.valueOf(id))) {
+	                customerList.add(createCustomer(parts));
+	            }
+	        }
+	    } catch (IOException | NumberFormatException e) {
+	        e.printStackTrace();
+	    }
+
+	    return customerList.toArray(new Customer[0]);
 	}
 }
