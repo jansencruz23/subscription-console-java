@@ -1,5 +1,6 @@
 package interfaces;
 
+//Class to handle methods in a different class based on Customer ID
 public interface ISubscription {
 
 	void addDuration(int id);

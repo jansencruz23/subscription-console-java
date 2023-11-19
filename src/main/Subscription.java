@@ -3,10 +3,14 @@ package main;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Scanner;
+
+import javax.swing.SpinnerDateModel;
+
 import helpers.CSVHelper;
 import interfaces.ISubscription;
 import plans.*;
 
+//Java abstraction or inheritance from a different class
 public class Subscription implements ISubscription {
 	
 	private Scanner scan = new Scanner(System.in);
@@ -44,10 +48,12 @@ public class Subscription implements ISubscription {
 		this.subCounter = subCounter;
 	}
 
+	//A function that will extend the duration of the subscription
 	@Override
 	public void addDuration(int id) {
 		var customer = csvHelper.getCustomer(id);
-		
+
+		System.out.println("\nExtend Duration:\n---------------------");
 		System.out.println("Add duration to your Subscription:");
 		System.out.println("1 - 1 week");
 		System.out.println("2 - 1 month");
@@ -79,10 +85,12 @@ public class Subscription implements ISubscription {
 		csvHelper.updateCustomer(customer);
 	}
 
+	//Another function in which the user wants to update their subscription type
 	@Override
 	public void updateType(int id) {
 		var customer = csvHelper.getCustomer(id);
 		
+		System.out.println("\nChange Subscription:\n---------------------");
 		System.out.println("Update your Subscription Type:");
 		System.out.println("1 - Standard Plan");
 		System.out.println("2 - Student Plan");
@@ -113,10 +121,12 @@ public class Subscription implements ISubscription {
 		csvHelper.updateCustomer(customer);
 	}
 
+	//A function which will display all the updates made inside the account of the user
 	@Override
 	public void viewSubHis(int id) {
 		var customer = csvHelper.getCustomer(id);
 		var customers = csvHelper.getHistory(id);
+		System.out.println("\nSubscription History:\n---------------------");
 		System.out.println("Name: " + customer.getCustomerName());
 		System.out.println("Email: " + customer.getEmail());
 		
@@ -126,16 +136,19 @@ public class Subscription implements ISubscription {
 		}
 	}
 
+	//To display the current values inside of the account
 	@Override
 	public void viewSubStat(int id) {
 		var customer = csvHelper.getCustomer(id);
 		
+		System.out.println("\nSubscription Status:\n---------------------");
 		System.out.println("Name: " + customer.getCustomerName());
 		System.out.println("Email: " + customer.getEmail());
 		System.out.println("Subscription Type: " + customer.getSubType().getClass().getSimpleName());
 		System.out.println("Subscription Due: " + customer.getSubDue());
 	}
 
+	//Allows the user to stop their subscription limiting access to their account
 	@Override
 	public void cancelSub(int id) {
 		var customer = csvHelper.getCustomer(id);

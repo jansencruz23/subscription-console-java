@@ -14,8 +14,10 @@ import main.Customer;
 import plans.*;
 
 public class CSVHelper {
+	//Automatically detect the csv file database used for the application
 	private String filePath = new File("customers.csv").getAbsolutePath();
 
+	//A function that reflects an output if the creation of an account is success
 	public void insertCustomer(Customer customer) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             writer.append(formatCustomerToCSV(customer, false));
@@ -26,6 +28,7 @@ public class CSVHelper {
         }
 	}
 	
+	//A formatter to arrange the values inside the account in order to the csv file
 	private String formatCustomerToCSV(Customer customer, boolean toUpdate) {
 		var customerId = toUpdate ? customer.getCustomerId() : getLastCustomerId();
 		System.out.println(customer.getSubDue().toString());
@@ -38,6 +41,7 @@ public class CSVHelper {
                 + customer.getSubDue().toString() + "\n";
     }
 	
+	//A method to get the last unique ID of user and increment to 1 to provide new unique ID
 	public int getLastCustomerId() {
         int lastId = 0;
         
@@ -67,6 +71,7 @@ public class CSVHelper {
         return lastId + 1;
     }
 	
+	//A process to retrieve informations inside the database based on the unique ID of the user
 	public Customer getCustomer(int id) {
 		Customer customer = null;
 		
@@ -90,6 +95,7 @@ public class CSVHelper {
 	    return customer; 
 	}
 	
+	//A method to check if the input email in the log in page matches of an email inside the csv file
 	public Customer getCustomer(String email) {
 		Customer customer = null;
 
@@ -116,11 +122,12 @@ public class CSVHelper {
 	    return customer; 
 	}
 		
+	//An array that will hold the values inputted during registration
 	private Customer createCustomer(String[] parts) {
 		var customerId = Integer.parseInt(parts[0]);
         var customerName = parts[1];
         var address = parts[2];
-        var email = parts[2];
+        var email = parts[3];
         var subType = parts[4];
         var subConti = Boolean.parseBoolean(parts[5]);
         var date = LocalDate.parse(parts[6]);
@@ -142,6 +149,8 @@ public class CSVHelper {
         return new Customer(customerId, customerName, address, email, subPlan, subConti, date, this);
 	}
 		
+
+	//A function that reflects an output if the update is success
 	public void updateCustomer(Customer customer) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             writer.append(formatCustomerToCSV(customer, true));
@@ -152,6 +161,7 @@ public class CSVHelper {
         }
 	}
 	
+	//A function that gets the history on the csv based on the unique ID
 	public Customer[] getHistory(int id) {
 		List<Customer> customerList = new ArrayList<>();
 
@@ -175,6 +185,7 @@ public class CSVHelper {
 	    return customerList.toArray(new Customer[0]);
 	}
 	
+	//To check wether an existing email is currently part of the database
 	public boolean isCustomerExisting(Customer customer) {
 		return !(getCustomer(customer.getEmail()) == null) || !customer.isSubConti();
 	}

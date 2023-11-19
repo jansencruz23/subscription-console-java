@@ -4,22 +4,29 @@ import java.util.Date;
 import java.util.Scanner;
 import helpers.CSVHelper;
 import plans.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
 
 	private Scanner scan = new Scanner(System.in);
 	private CSVHelper csvHelper = new CSVHelper();
 	private Subscription subscription = new Subscription(csvHelper);
+
+	private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+   	private static final Pattern pattern = Pattern.compile(EMAIL_REGEX);
 	
 	public static void main(String[] args) {
 		new Main();
 	}
 	
+	//Opening prompt - User will choose between log in and register
 	public Main() {		
 		System.out.println("Welcome to Subscription Management System");
 		System.out.println("What would you like to do?");
 		System.out.println("1 - Login");
 		System.out.println("2 - Register");
+		System.out.println("exit - Close Program");
 		System.out.print("Enter input: ");
 		var input = scan.nextLine();
 		
@@ -30,6 +37,9 @@ public class Main {
 			case "2":
 				register();
 				break;
+			case "exit":
+				System.exit(0);
+				break;
 			default:
 				System.out.println("Invalid input");
 				new Main();
@@ -37,7 +47,9 @@ public class Main {
 		}
 	}
 	
+	//Log in prompt - Verify wether the user has existing info in the csv database or not
 	private void login() {
+		System.out.println("\nLog in Page\n---------------------");
 		System.out.print("Enter your email: ");
 		var email = scan.nextLine();
 		var customer = csvHelper.getCustomer(email);
@@ -63,9 +75,17 @@ public class Main {
 		
 		promptUserLoggedIn(customer);
 	}
+
+	//To validate wether the email input is in correct format
+	public static boolean isValidEmail(String email){
+		Matcher matcher = pattern.matcher(email);
+		return matcher.matches();
+	}
 	
+	//Register prompt - This will allow the user to create a simple account and will update the csv database
 	private void register() {
 		var customer = new Customer(csvHelper);
+		System.out.println("\nRegistration Form\n---------------------");
 		
 		System.out.print("Name: ");
 		customer.setCustomerName(scan.nextLine());
@@ -74,7 +94,13 @@ public class Main {
 		customer.setAddress(scan.nextLine());
 		
 		System.out.print("Email: ");
-		customer.setEmail(scan.nextLine());
+		String email = scan.nextLine();
+		while (!isValidEmail(email)) {
+            System.out.println("Invalid email format. Please try again.");
+            System.out.print("Email: ");
+            email = scan.nextLine();
+        }
+		customer.setEmail(email);
 		
 		System.out.println("Subscription Type: ");
 		System.out.println("1 - Standard Plan");
@@ -83,6 +109,7 @@ public class Main {
 		var plan = scan.nextLine();
 		BasePlan subType = null;
 		
+		//The user can choose their subscription plan for the application
 		switch(plan) {
 		case "1":
 			subType = new StandardPlan();
@@ -107,6 +134,7 @@ public class Main {
 		LocalDate currentDate = LocalDate.now();
 		LocalDate subDue = null;
 		
+		//This will automatically calculate when is the end date of the subscription
 		switch(date) {
 		case "1":
 			subDue = currentDate.plusWeeks(1);
@@ -132,8 +160,9 @@ public class Main {
 		promptUserLoggedIn(customer);
 	}
 	
+	//This is a method that will allow the user to the main page and access the application features
 	private void promptUserLoggedIn(Customer customer) {
-		System.out.println("Hello " + customer.getCustomerName() + "!");
+		System.out.println("\nMain Menu\n---------------------\n" + "Hello " + customer.getCustomerName() + "!");
 		System.out.println("What would you like to do?");
 		System.out.println("1 - View Subscription Status");
 		System.out.println("2 - View Subscription History");
@@ -163,6 +192,7 @@ public class Main {
 			subscription.cancelSub(id);
 			break;
 		case "6":
+			System.out.println("");
 			new Main();
 			break;
 		default:

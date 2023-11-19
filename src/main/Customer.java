@@ -5,6 +5,7 @@ import java.util.Date;
 import helpers.CSVHelper;
 import plans.BasePlan;
 
+//Acts as a getter and setter of variables inside the program
 public class Customer {
 	
 	private int customerId;
@@ -89,6 +90,7 @@ public class Customer {
 		this.customerId = customerId;
 	}
 	
+	//Validating wether the customer is already in the database
 	public void registerCustomer(Customer customer) {
 		if (csvHelper.isCustomerExisting(customer)) {
 			System.out.println("Customer is already existing!");
